@@ -1,13 +1,12 @@
 use swayipc::reply::{Event, Node, NodeLayout, NodeType, WindowChange};
 use swayipc::{Connection, EventType};
 
-fn switch_splitting(conn: &mut Connection, focused_node: Node) -> Result<(), std::io::Error> {
+fn switch_splitting(conn: &mut Connection, focused_node: Node) -> Result<(), String> {
     // get info from parent node which unfortunately requires us to call get_tree
     let tree = conn.get_tree().unwrap();
     let parent = tree
         .find_focused_as_ref(|n| n.nodes.iter().any(|n| n.focused))
-        .ok_or("No parent")
-        .unwrap();
+        .ok_or("No parent")?;
     let is_stacked = parent.layout == NodeLayout::Stacked;
     let is_tabbed = parent.layout == NodeLayout::Tabbed;
 

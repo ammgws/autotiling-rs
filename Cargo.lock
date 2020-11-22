@@ -11,7 +11,7 @@ dependencies = [
 
 [[package]]
 name = "autotiling-rs"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "swayipc",
 ]
@@ -144,9 +144,9 @@ dependencies = [
 
 [[package]]
 name = "swayipc"
-version = "2.6.2"
+version = "2.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "63264a1487f163e1c6b185683e6cc7e9ce19cbc0bd5733471c63f959a85f1a09"
+checksum = "92c6565a48b46668f894564e855ea0adfef31f51f549af6fedd9cba8052b210f"
 dependencies = [
  "failure",
  "serde",

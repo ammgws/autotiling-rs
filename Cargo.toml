@@ -6,4 +6,7 @@ edition = "2018"
 
 [dependencies]
 swayipc = "2.7"
-clap = "2.33.3"
+
+[dependencies.clap]
+version = "2.33"
+default-features = false

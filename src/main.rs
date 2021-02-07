@@ -84,11 +84,11 @@ fn main() -> Result<(), std::io::Error> {
         match event.unwrap() {
             Event::Window(e) => {
                 if let WindowChange::Focus = e.change {
-                    //we can not use the e.container because the data is stale
-                    //if we compare that node data with the node given from get_tree() after we
-                    //delete a node we find that the e.container.rect.height and e.container.rect.width are stale
-                    //and therefore we make the wrong decision on which layout our next window
-                    //should be
+                    // We can not use the e.container because the data is stale.
+                    // If we compare that node data with the node given from get_tree() after we
+                    // delete a node we find that the e.container.rect.height and e.container.rect.width are stale,
+                    // and therefore we make the wrong decision on which layout our next window should be.
+                    // Refer to https://github.com/swaywm/sway/issues/5873
                     if let Err(err) = switch_splitting(&mut conn, &workspaces) {
                         eprintln!("err: {}", err);
                     }

@@ -3,7 +3,7 @@ use swayipc::{Connection, EventType};
 
 use clap::{app_from_crate, crate_authors, crate_description, crate_name, crate_version, Arg};
 
-fn switch_splitting(conn: &mut Connection, workspaces: &[String]) -> Result<(), String> {
+fn switch_splitting(conn: &mut Connection, workspaces: &[i32]) -> Result<(), String> {
     // Check if focused workspace is in "allowed list".
     // If `workspaces` is empty, skip allow all workspaces.
     if !workspaces.is_empty() {
@@ -12,7 +12,7 @@ fn switch_splitting(conn: &mut Connection, workspaces: &[String]) -> Result<(), 
             .map_err(|_| "get_workspaces() failed")?
         {
             if workspace.focused {
-                if workspaces.contains(&workspace.name) {
+                if workspaces.contains(&workspace.num) {
                     break;
                 } else {
                     return Ok(());
@@ -72,7 +72,7 @@ fn main() -> Result<(), std::io::Error> {
         .get_matches();
     let workspaces = params
         .values_of("workspace")
-        .map(|w| w.map(|w| w.to_owned()).collect::<Vec<String>>())
+        .map(|w| w.map(|w| w.parse::<i32>().unwrap()).collect::<Vec<i32>>())
         .unwrap_or_default();
 
     let mut conn = Connection::new().unwrap();

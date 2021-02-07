@@ -6,3 +6,4 @@ edition = "2018"
 
 [dependencies]
 swayipc = "2.7"
+clap = "2.33.3"

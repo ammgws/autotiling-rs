@@ -64,7 +64,7 @@ fn main() -> Result<(), std::io::Error> {
         .arg(
             Arg::with_name("workspace")
                 .short("w")
-                .help("Autotiling will be active only on this workspace. By default, all workspaces are activeated. More that one workspace may be specified.")
+                .help("Activate autotiling only on this workspace. More than one workspace may be specified.")
                 .multiple(true)
                 .takes_value(true)
                 .required(false),

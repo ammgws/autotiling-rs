@@ -1,7 +1,7 @@
-use swayipc::reply::{Event, NodeLayout, NodeType, WindowChange};
 use swayipc::{Connection, EventType};
+use swayipc::{Event, NodeLayout, NodeType, WindowChange};
 
-use clap::{app_from_crate, crate_authors, crate_description, crate_name, crate_version, Arg};
+use clap::Parser;
 
 fn switch_splitting(conn: &mut Connection, workspaces: &[i32]) -> Result<(), String> {
     // Check if focused workspace is in "allowed list".
@@ -58,22 +58,16 @@ fn switch_splitting(conn: &mut Connection, workspaces: &[i32]) -> Result<(), Str
     Ok(())
 }
 
+#[derive(Parser)]
+#[clap(version, author, about)]
+struct Cli {
+    /// Activate autotiling only on this workspace. More than one workspace may be specified.
+    #[clap(long, short = 'w')]
+    workspace: Vec<i32>,
+}
+
 fn main() -> Result<(), std::io::Error> {
-    // Init clap
-    let params = app_from_crate!()
-        .arg(
-            Arg::with_name("workspace")
-                .short("w")
-                .help("Activate autotiling only on this workspace. More than one workspace may be specified.")
-                .multiple(true)
-                .takes_value(true)
-                .required(false),
-        )
-        .get_matches();
-    let workspaces = params
-        .values_of("workspace")
-        .map(|w| w.map(|w| w.parse::<i32>().unwrap()).collect::<Vec<i32>>())
-        .unwrap_or_default();
+    let args = Cli::parse();
 
     let mut conn = Connection::new().unwrap();
     for event in Connection::new()
@@ -89,7 +83,7 @@ fn main() -> Result<(), std::io::Error> {
                     // delete a node we find that the e.container.rect.height and e.container.rect.width are stale,
                     // and therefore we make the wrong decision on which layout our next window should be.
                     // Refer to https://github.com/swaywm/sway/issues/5873
-                    if let Err(err) = switch_splitting(&mut conn, &workspaces) {
+                    if let Err(err) = switch_splitting(&mut conn, &args.workspace) {
                         eprintln!("err: {}", err);
                     }
                 }

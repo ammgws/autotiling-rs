@@ -8,4 +8,6 @@ For more info run `autotiling-rs --help`.
 
 ## Installation
 
-Arch Linux: Found on the AUR as [autotiling-rs-git](https://aur.archlinux.org/packages/autotiling-rs-git).
+Arch Linux: [autotiling-rs](https://archlinux.org/packages/?q=autotiling-rs)
+
+Arch Linux (AUR): [autotiling-rs-git](https://aur.archlinux.org/packages/autotiling-rs-git).

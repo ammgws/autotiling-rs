@@ -1,6 +1,6 @@
 [package]
 name = "autotiling-rs"
-version = "0.1.3"
+version = "0.1.5"
 authors = ["Jason Nader <jason.nader@protonmail.com>"]
 description = "Autotiling for sway (and possibly i3)"
 edition = "2018"
@@ -9,6 +9,6 @@ edition = "2018"
 swayipc = "3.0"
 
 [dependencies.clap]
-version = "3.0"
+version = "4.5"
 default-features = false
 features = ["std", "derive"]

@@ -62,7 +62,7 @@ fn switch_splitting(conn: &mut Connection, workspaces: &[i32]) -> Result<(), Str
 #[clap(version, author, about)]
 struct Cli {
     /// Activate autotiling only on this workspace. More than one workspace may be specified.
-    #[clap(long, short = 'w')]
+    #[clap(long, short = 'w', value_delimiter = ' ', num_args = 1..)]
     workspace: Vec<i32>,
 }
 

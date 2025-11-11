@@ -13,3 +13,5 @@ Arch Linux: [autotiling-rs](https://archlinux.org/packages/?q=autotiling-rs)
 Arch Linux (AUR): [autotiling-rs-git](https://aur.archlinux.org/packages/autotiling-rs-git).
 
 Nix: [autotiling-rs](https://search.nixos.org/packages?channel=unstable&show=autotiling-rs&from=0&size=50&sort=relevance&type=packages&query=autotiling-rs)
+
+Gentoo GURU: [autotiling-rs](https://gpo.zugaina.org/gui-apps/autotiling-rs)

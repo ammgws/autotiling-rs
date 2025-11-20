@@ -12,3 +12,8 @@ swayipc = "3.0"
 version = "4.5"
 default-features = false
 features = ["std", "derive", "usage", "help", "suggestions"]
+
+[profile.release]
+strip = true
+opt-level = "s"
+lto = true

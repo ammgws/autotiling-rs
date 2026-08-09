@@ -6,6 +6,9 @@ Simply run the program `autotiling-rs`. To start it automatically, put it in you
 
 For more info run `autotiling-rs --help`.
 
+### Depth Limit
+You can also find this under `autotiling-rs --help`, but using `autotiling-rs -l <Limit>` will constrain the amount of times the split direction can change.
+
 ## Installation
 
 Arch Linux: [autotiling-rs](https://archlinux.org/packages/?q=autotiling-rs)

@@ -26,11 +26,19 @@ fn switch_splitting(conn: &mut Connection, workspaces: &[i32]) -> Result<(), Str
     let focused_node = tree
         .find_focused_as_ref(|n| n.focused)
         .ok_or("Could not find the focused node")?;
+    let parent = tree
+        .find_focused_as_ref(|n| n.nodes.iter().any(|n| n.focused))
+        .ok_or("No parent")?;
 
     {
-        // get info from the focused child node
-        let is_stacked = focused_node.layout == NodeLayout::Stacked;
-        let is_tabbed = focused_node.layout == NodeLayout::Tabbed;
+        // Tabbed and stacked are read off the parent because the focused node
+        // is a leaf, and a leaf's layout is always None - so checking it here
+        // never matched and we split inside tabbed containers. Sway answers
+        // that by wrapping the leaf in a new split con, which leaves the
+        // tabbed parent holding one child and drawing a tab bar that has
+        // nothing to switch to.
+        let is_stacked = parent.layout == NodeLayout::Stacked;
+        let is_tabbed = parent.layout == NodeLayout::Tabbed;
         let is_floating = focused_node.node_type == NodeType::FloatingCon;
         let is_full_screen = focused_node.percent.unwrap_or(1.0) > 1.0;
         if is_floating || is_full_screen || is_stacked || is_tabbed {
@@ -43,9 +51,6 @@ fn switch_splitting(conn: &mut Connection, workspaces: &[i32]) -> Result<(), Str
     } else {
         NodeLayout::SplitH
     };
-    let parent = tree
-        .find_focused_as_ref(|n| n.nodes.iter().any(|n| n.focused))
-        .ok_or("No parent")?;
     if new_layout == parent.layout {
         return Ok(());
     }

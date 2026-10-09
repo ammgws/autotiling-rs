@@ -1,6 +1,6 @@
 [package]
 name = "autotiling-rs"
-version = "0.1.8"
+version = "0.2.0"
 authors = ["Jason Nader <jason.nader@protonmail.com>"]
 description = "Autotiling for sway (and possibly i3)"
 edition = "2018"

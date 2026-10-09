@@ -10,7 +10,7 @@ checksum = "5192cca8006f1fd4f7237516f40fa183bb07f8fbdfedaa0036de5ea9b0b45e78"
 
 [[package]]
 name = "autotiling-rs"
-version = "0.1.8"
+version = "0.2.0"
 dependencies = [
  "clap",
  "swayipc",

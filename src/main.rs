@@ -77,7 +77,7 @@ fn main() -> Result<(), std::io::Error> {
     let mut conn = Connection::new().unwrap();
     for event in Connection::new()
         .unwrap()
-        .subscribe(&[EventType::Window])
+        .subscribe([EventType::Window])
         .unwrap()
     {
         match event.unwrap() {

@@ -3,7 +3,11 @@ use swayipc::{Event, NodeLayout, NodeType, WindowChange};
 
 use clap::Parser;
 
-fn switch_splitting(conn: &mut Connection, workspaces: &[i32]) -> Result<(), String> {
+fn switch_splitting(
+    conn: &mut Connection,
+    workspaces: &[i32],
+    depth_limit: usize,
+) -> Result<(), String> {
     // Check if focused workspace is in "allowed list".
     // If `workspaces` is empty, skip allow all workspaces.
     if !workspaces.is_empty() {
@@ -46,6 +50,20 @@ fn switch_splitting(conn: &mut Connection, workspaces: &[i32]) -> Result<(), Str
         }
     }
 
+    if depth_limit > 0 {
+        let workspace = tree.find_focused_as_ref(|n| n.node_type == NodeType::Workspace);
+        let depth = std::iter::successors(workspace, |n| {
+            let id = *n.focus.first()?;
+            n.nodes.iter().find(|c| c.id == id)
+        })
+        .take_while(|n| !n.focused)
+        .filter(|n| n.nodes.len() > 1)
+        .count();
+        if depth >= depth_limit {
+            return Ok(());
+        }
+    }
+
     let new_layout = if focused_node.rect.height > focused_node.rect.width {
         NodeLayout::SplitV
     } else {
@@ -69,6 +87,10 @@ struct Cli {
     /// Activate autotiling only on this workspace. More than one workspace may be specified.
     #[clap(long, short = 'w', value_delimiter = ' ', num_args = 1..)]
     workspace: Vec<i32>,
+
+    /// Stop alternating split direction after reaching this container depth.
+    #[clap(long, short = 'l', default_value_t = 0)]
+    limit: usize,
 }
 
 fn main() -> Result<(), std::io::Error> {
@@ -88,7 +110,7 @@ fn main() -> Result<(), std::io::Error> {
                     // delete a node we find that the e.container.rect.height and e.container.rect.width are stale,
                     // and therefore we make the wrong decision on which layout our next window should be.
                     // Refer to https://github.com/swaywm/sway/issues/5873
-                    if let Err(err) = switch_splitting(&mut conn, &args.workspace) {
+                    if let Err(err) = switch_splitting(&mut conn, &args.workspace, args.limit) {
                         eprintln!("err: {}", err);
                     }
                 }
